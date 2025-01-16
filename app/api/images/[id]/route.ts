@@ -1,18 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import cloudinary from "@/lib/cloudinary";
 
-type Props = {
-  params: Promise<{ id: string }> | { id: string };
-}
-
-export async function DELETE(req: Request, props: Props) {
-  const params = await props.params;
+export async function DELETE(
+  request: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
-    // Get the ID from params, handling both Promise and direct object cases
-    const resolvedParams = await Promise.resolve(params);
-    const { id } = resolvedParams;
+    const id = context.params.id;
 
     const image = await prisma.image.findUnique({
       where: { id },
