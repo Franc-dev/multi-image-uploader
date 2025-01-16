@@ -3,13 +3,16 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import cloudinary from "@/lib/cloudinary";
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+type Props = {
+  params: Promise<{ id: string }> | { id: string };
+}
+
+export async function DELETE(req: Request, props: Props) {
+  const params = await props.params;
   try {
-    // Await params before destructuring
-    const { id } = await params;
+    // Get the ID from params, handling both Promise and direct object cases
+    const resolvedParams = await Promise.resolve(params);
+    const { id } = resolvedParams;
 
     const image = await prisma.image.findUnique({
       where: { id },
