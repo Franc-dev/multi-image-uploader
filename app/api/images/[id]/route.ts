@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import cloudinary from "@/lib/cloudinary";
 
-export async function DELETE(req: Request, props: { params: Promise<{ id: string }> }) {
+export async function DELETE(props: { params: Promise<{ id: string }> }) {
 
   try {
     const { id } = await props.params;
