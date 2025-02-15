@@ -20,7 +20,7 @@ export async function DELETE(props: { params: Promise<{ id: string }> }) {
     }
 
     // Delete from Cloudinary
-    await cloudinary.uploader.destroy(image.publicId);
+  //  await cloudinary.uploader.destroy(image.publicId);
 
     // Delete from database
     await prisma.image.delete({
